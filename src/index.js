@@ -111,7 +111,7 @@ class ChartBig extends React.Component {
   }
 
   render() {
-    const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth, ticker, name, t } = this.props;
+    const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth, ticker, t } = this.props;
     const { copied } = this.state;
 
     if (!initialData) return null;
@@ -138,16 +138,19 @@ class ChartBig extends React.Component {
     }
     const btnClass = copied ? 'react-components-show-url btn btn-sm btn-danger disabled font-10' : 'react-components-show-url btn btn-sm btn-warning font-10';
     const btnText = copied ? 'Copied' : 'Copy Img';
+    const tickerClass = 'react-components-show-ticker darkred font-30';
+    const seriesName = `${ticker} - ${t} chart`;
 
     return (
       <div className='row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button'>
         <CopyToClipboard text={`https://i.earningsfly.com/${ticker}_daily.png`}
           onCopy={() => this.setState({ copied: true })}
         >
-          <button className={btnClass} value={btnText}>{btnText}</button>
+          <button style={{zIndex: 10}} className={btnClass} value={btnText}>{btnText}</button>
         </CopyToClipboard>
+        <div className={tickerClass}>{seriesName}</div>
         <ChartCanvas height={height * 1.2}
-          seriesName={`${ticker} - ${name} ${t} chart`}
+          seriesName={seriesName}
           ratio={ratio}
           width={width}
           clip={false}
