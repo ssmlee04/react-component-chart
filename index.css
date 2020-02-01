@@ -1,7 +1,7 @@
 div.react-components-show-button {
     position: relative;
 }
-div.react-components-show-button:hover img {
+div.react-components-show-button:hover img{
     opacity: 0.8;
 }
 div.react-components-show-button:hover button {
@@ -10,16 +10,18 @@ div.react-components-show-button:hover button {
 div.react-components-show-button:hover span {
     display: block;
 }
-div.react-components-show-button button.react-components-show-url {
+div.react-components-show-button button {
     position: absolute;
     display: none;
+}
+div.react-components-show-button span {
+    position: absolute;
+}
+div.react-components-show-button button.react-components-show-url {
     top: 2px;
     right: 2px;
 }
-
 div.react-components-show-button span.react-components-show-ticker {
-    position: absolute;
     top: 20%;
     left: 30%;
-    text-align: center;
 }
