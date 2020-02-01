@@ -7,7 +7,7 @@ div.react-components-show-button:hover img{
 div.react-components-show-button:hover button {
     display: block;
 }
-div.react-components-show-button:hover div.react-components-show-ticker {
+div.react-components-show-button:hover div {
     display: block;
 }
 div.react-components-show-button button.react-components-show-url {
@@ -19,7 +19,6 @@ div.react-components-show-button button.react-components-show-url {
 
 div.react-components-show-button div.react-components-show-ticker {
     position: absolute;
-    display: none;
     top: 30%;
     text-align: center;
 }
