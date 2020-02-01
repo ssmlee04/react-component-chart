@@ -106,7 +106,7 @@ const candlesAppearance = {
 
 class ChartBig extends React.Component {
   render() {
-    const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth, ticker, name, type } = this.props;
+    const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth, ticker, name, t } = this.props;
     const { copied } = this.state;
 
     if (!initialData) return null;
@@ -142,7 +142,7 @@ class ChartBig extends React.Component {
           <button className={btnClass} value={btnText}>{btnText}</button>
         </CopyToClipboard>
         <ChartCanvas height={height * 1.2}
-          seriesName={`${ticker} - ${name} ${type} chart`}
+          seriesName={`${ticker} - ${name} ${t} chart`}
           ratio={ratio}
           width={width}
           clip={false}
