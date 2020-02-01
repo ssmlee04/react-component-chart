@@ -215,8 +215,8 @@ function (_React$Component) {
 
       var btnClass = copied ? 'react-components-show-url btn btn-sm btn-danger disabled font-10' : 'react-components-show-url btn btn-sm btn-warning font-10';
       var btnText = copied ? 'Copied' : 'Copy Img';
-      var tickerClass = 'react-components-show-ticker darkred font-30';
-      var seriesName = "".concat(ticker, " - ").concat(t, " chart");
+      var tickerClass = 'react-components-show-ticker';
+      var seriesName = "".concat(ticker, " - ").concat(t);
       return _react["default"].createElement("div", {
         className: "row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button"
       }, _react["default"].createElement(_reactCopyToClipboard.CopyToClipboard, {
@@ -233,7 +233,11 @@ function (_React$Component) {
         className: btnClass,
         value: btnText
       }, btnText)), _react["default"].createElement("span", {
-        className: tickerClass
+        className: tickerClass,
+        style: {
+          color: 'rgba(0, 0, 0, 0.2)',
+          fontSize: 50
+        }
       }, seriesName), _react["default"].createElement(_reactStockcharts.ChartCanvas, {
         height: height * 1.2,
         seriesName: seriesName,

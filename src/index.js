@@ -139,17 +139,17 @@ class ChartBig extends React.Component {
     }
     const btnClass = copied ? 'react-components-show-url btn btn-sm btn-danger disabled font-10' : 'react-components-show-url btn btn-sm btn-warning font-10';
     const btnText = copied ? 'Copied' : 'Copy Img';
-    const tickerClass = 'react-components-show-ticker darkred font-30';
-    const seriesName = `${ticker} - ${t} chart`;
+    const tickerClass = 'react-components-show-ticker';
+    const seriesName = `${ticker} - ${t}`;
 
     return (
       <div className='row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button'>
         <CopyToClipboard text={`https://i.earningsfly.com/${ticker}_daily.png`}
           onCopy={() => this.setState({ copied: true })}
         >
-          <button style={{zIndex: 10}} className={btnClass} value={btnText}>{btnText}</button>
+          <button style={{ zIndex: 10 }} className={btnClass} value={btnText}>{btnText}</button>
         </CopyToClipboard>
-        <span className={tickerClass}>{seriesName}</span>
+        <span className={tickerClass} style={{ color: 'rgba(0, 0, 0, 0.2)', fontSize: 50 }}>{seriesName}</span>
         <ChartCanvas height={height * 1.2}
           seriesName={seriesName}
           ratio={ratio}
