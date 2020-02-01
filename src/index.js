@@ -30,7 +30,7 @@ import { fitWidth } from "react-stockcharts/lib/helper";
 import { last } from "react-stockcharts/lib/utils";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PatternsDisplayer from './PatternsDisplayer';
-import './index.css';
+import './../index.css';
 
 const annotationProps = {
       fontFamily: "Glyphicons Halflings",

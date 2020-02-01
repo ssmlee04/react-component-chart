@@ -39,7 +39,7 @@ var _reactCopyToClipboard = require("react-copy-to-clipboard");
 
 var _PatternsDisplayer = _interopRequireDefault(require("./PatternsDisplayer"));
 
-require("./index.css");
+require("./../index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 
