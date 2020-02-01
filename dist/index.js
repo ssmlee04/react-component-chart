@@ -168,7 +168,7 @@ function (_React$Component) {
           windowWidth = _this$props.windowWidth,
           ticker = _this$props.ticker,
           name = _this$props.name,
-          type = _this$props.type;
+          t = _this$props.t;
       var copied = this.state.copied;
       if (!initialData) return null;
       if (!initialData.length) return null;
@@ -224,7 +224,7 @@ function (_React$Component) {
         value: btnText
       }, btnText)), _react["default"].createElement(_reactStockcharts.ChartCanvas, {
         height: height * 1.2,
-        seriesName: "".concat(ticker, " - ").concat(name, " ").concat(type, " chart"),
+        seriesName: "".concat(ticker, " - ").concat(name, " ").concat(t, " chart"),
         ratio: ratio,
         width: width,
         clip: false,
