@@ -148,7 +148,7 @@ class ChartBig extends React.Component {
         >
           <button style={{zIndex: 10}} className={btnClass} value={btnText}>{btnText}</button>
         </CopyToClipboard>
-        <div className={tickerClass}>{seriesName}</div>
+        <span className={tickerClass}>{seriesName}</span>
         <ChartCanvas height={height * 1.2}
           seriesName={seriesName}
           ratio={ratio}

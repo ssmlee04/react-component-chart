@@ -230,7 +230,7 @@ function (_React$Component) {
         },
         className: btnClass,
         value: btnText
-      }, btnText)), _react["default"].createElement("div", {
+      }, btnText)), _react["default"].createElement("span", {
         className: tickerClass
       }, seriesName), _react["default"].createElement(_reactStockcharts.ChartCanvas, {
         height: height * 1.2,
