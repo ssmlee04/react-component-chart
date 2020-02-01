@@ -123,8 +123,8 @@ class ChartBig extends React.Component {
     const gridHeight = height;
     const gridWidth = width;
     const showGrid = true;
-    const yGrid = showGrid ? { innerTickSize: -1 * gridWidth } : {};
-    const xGrid = showGrid ? { innerTickSize: -1 * gridHeight } : {};
+    const yGrid = showGrid ? { innerTickSize: -1 * gridWidth, tickStrokeDasharray: 'ShortDot' } : {};
+    const xGrid = showGrid ? { innerTickSize: -1 * gridHeight, tickStrokeDasharray: 'ShortDot' } : {};
     let ticks = 5;
     if (windowWidth < 720) {
       ticks = 2;
@@ -154,8 +154,8 @@ class ChartBig extends React.Component {
             origin={(w, h) => [0, 0]}
             padding={{ top: 10, bottom: 20 }}
           >
-            <XAxis tickStroke={'#999999'} axisAt='bottom' orient='bottom' ticks={ticks} {...xGrid} />
-            <YAxis tickStroke={'#cccccc'} axisAt='right' orient='right' ticks={5} {...yGrid} />
+            <XAxis tickStroke={'#bbbbbb'} axisAt='bottom' orient='bottom' ticks={ticks} {...xGrid} />
+            <YAxis tickStroke={'#bbbbbb'} axisAt='right' orient='right' ticks={5} {...yGrid} />
             <MouseCoordinateY
               at='right'
               orient='right'

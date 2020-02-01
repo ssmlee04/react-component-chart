@@ -84,6 +84,13 @@ var macdCalculator = (0, _indicator.macd)().options({
 }).accessor(function (d) {
   return d.macd;
 });
+var sma10 = (0, _indicator.sma)().id(0).stroke('rgba(100,0,10,0.5)').options({
+  windowSize: 10
+}).merge(function (d, c) {
+  d.sma10 = c;
+}).accessor(function (d) {
+  return d.sma10;
+});
 var sma20 = (0, _indicator.sma)().id(0).stroke('rgba(200,0,10,0.5)').options({
   windowSize: 20
 }).merge(function (d, c) {
@@ -161,7 +168,7 @@ function (_React$Component) {
       var patterns = initialData[initialData.length - 1 - shift].patterns || initialData[initialData.length - 2 - shift].patterns;
       var maxWindowSize = 9999;
       var dataToCalculate = initialData.slice(-maxWindowSize);
-      var calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(dataToCalculate)))));
+      var calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(sma10(dataToCalculate))))));
 
       var xScaleProvider = _scale.discontinuousTimeScaleProvider.inputDateAccessor(function (d) {
         return d.date;
@@ -180,10 +187,12 @@ function (_React$Component) {
       var gridWidth = width;
       var showGrid = true;
       var yGrid = showGrid ? {
-        innerTickSize: -1 * gridWidth
+        innerTickSize: -1 * gridWidth,
+        tickStrokeDasharray: 'ShortDot'
       } : {};
       var xGrid = showGrid ? {
-        innerTickSize: -1 * gridHeight
+        innerTickSize: -1 * gridHeight,
+        tickStrokeDasharray: 'ShortDot'
       } : {};
       var ticks = 5;
 
@@ -220,7 +229,7 @@ function (_React$Component) {
         height: height * 0.8,
         yExtents: [function (d) {
           return [d.high, d.low];
-        }, sma20.accessor(), sma50.accessor(), sma200.accessor()],
+        }, sma10.accessor(), sma20.accessor(), sma50.accessor(), sma200.accessor()],
         origin: function origin(w, h) {
           return [0, 0];
         },
@@ -229,12 +238,12 @@ function (_React$Component) {
           bottom: 20
         }
       }, _react["default"].createElement(_axes.XAxis, _extends({
-        tickStroke: '#999999',
+        tickStroke: '#bbbbbb',
         axisAt: "bottom",
         orient: "bottom",
         ticks: ticks
       }, xGrid)), _react["default"].createElement(_axes.YAxis, _extends({
-        tickStroke: '#cccccc',
+        tickStroke: '#bbbbbb',
         axisAt: "right",
         orient: "right",
         ticks: 5
@@ -243,6 +252,9 @@ function (_React$Component) {
         orient: "right",
         displayFormat: (0, _d3Format.format)(".1f")
       }), _react["default"].createElement(_series.CandlestickSeries, candlesAppearance), _react["default"].createElement(_series.LineSeries, {
+        yAccessor: sma10.accessor(),
+        stroke: sma10.stroke()
+      }), _react["default"].createElement(_series.LineSeries, {
         yAccessor: sma20.accessor(),
         stroke: sma20.stroke()
       }), _react["default"].createElement(_series.LineSeries, {
@@ -255,6 +267,11 @@ function (_React$Component) {
         origin: [0, 0]
       }), _react["default"].createElement(_tooltip.MovingAverageTooltip, {
         options: [{
+          yAccessor: sma10.accessor(),
+          type: "SMA",
+          stroke: sma10.stroke(),
+          windowSize: sma10.options().windowSize
+        }, {
           yAccessor: sma20.accessor(),
           type: "SMA",
           stroke: sma20.stroke(),
