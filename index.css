@@ -1,7 +1,7 @@
 div.react-components-show-button {
     position: relative;
 }
-div.react-components-show-button:hover img{
+div.react-components-show-button:hover img {
     opacity: 0.8;
 }
 div.react-components-show-button:hover button {
