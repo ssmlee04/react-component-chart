@@ -105,6 +105,11 @@ const candlesAppearance = {
 };
 
 class ChartBig extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
   render() {
     const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth, ticker, name, t } = this.props;
     const { copied } = this.state;

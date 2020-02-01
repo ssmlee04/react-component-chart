@@ -144,16 +144,20 @@ var ChartBig =
 function (_React$Component) {
   _inherits(ChartBig, _React$Component);
 
-  function ChartBig() {
+  function ChartBig(props) {
+    var _this;
+
     _classCallCheck(this, ChartBig);
 
-    return _possibleConstructorReturn(this, _getPrototypeOf(ChartBig).apply(this, arguments));
+    _this = _possibleConstructorReturn(this, _getPrototypeOf(ChartBig).call(this, props));
+    _this.state = {};
+    return _this;
   }
 
   _createClass(ChartBig, [{
     key: "render",
     value: function render() {
-      var _this = this;
+      var _this2 = this;
 
       var _this$props = this.props,
           _this$props$shift = _this$props.shift,
@@ -215,7 +219,7 @@ function (_React$Component) {
       }, _react["default"].createElement(_reactCopyToClipboard.CopyToClipboard, {
         text: "https://i.earningsfly.com/".concat(ticker, "_daily.png"),
         onCopy: function onCopy() {
-          return _this.setState({
+          return _this2.setState({
             copied: true
           });
         }
