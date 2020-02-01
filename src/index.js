@@ -28,6 +28,7 @@ import {
 import { sma, macd } from "react-stockcharts/lib/indicator";
 import { fitWidth } from "react-stockcharts/lib/helper";
 import { last } from "react-stockcharts/lib/utils";
+import { CopyToClipboard } from 'react-copy-to-clipboard';
 import PatternsDisplayer from './PatternsDisplayer';
 
 const annotationProps = {
@@ -105,7 +106,8 @@ const candlesAppearance = {
 
 class ChartBig extends React.Component {
   render() {
-    const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth } = this.props;
+    const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth, ticker, name, type } = this.props;
+    const { copied } = this.state;
 
     if (!initialData) return null;
     if (!initialData.length) return null;
@@ -129,10 +131,18 @@ class ChartBig extends React.Component {
     if (windowWidth < 720) {
       ticks = 2;
     }
+    const btnClass = copied ? 'react-components-show-url btn btn-sm btn-danger disabled font-10' : 'react-components-show-url btn btn-sm btn-warning font-10';
+    const btnText = copied ? 'Copied' : 'Copy Img';
+
     return (
-      <div className='row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10'>
+      <div className='row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button'>
+        <CopyToClipboard text={`https://i.earningsfly.com/${ticker}_daily.png`}
+          onCopy={() => this.setState({ copied: true })}
+        >
+          <button className={btnClass} value={btnText}>{btnText}</button>
+        </CopyToClipboard>
         <ChartCanvas height={height * 1.2}
-          // seriesName={seriesName}
+          seriesName={`${ticker} - ${name} ${type} chart`}
           ratio={ratio}
           width={width}
           clip={false}

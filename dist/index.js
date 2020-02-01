@@ -35,6 +35,8 @@ var _helper = require("react-stockcharts/lib/helper");
 
 var _utils = require("react-stockcharts/lib/utils");
 
+var _reactCopyToClipboard = require("react-copy-to-clipboard");
+
 var _PatternsDisplayer = _interopRequireDefault(require("./PatternsDisplayer"));
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -151,6 +153,8 @@ function (_React$Component) {
   _createClass(ChartBig, [{
     key: "render",
     value: function render() {
+      var _this = this;
+
       var _this$props = this.props,
           _this$props$shift = _this$props.shift,
           shift = _this$props$shift === void 0 ? 0 : _this$props$shift,
@@ -161,7 +165,11 @@ function (_React$Component) {
           ratio = _this$props.ratio,
           _this$props$height = _this$props.height,
           height = _this$props$height === void 0 ? 300 : _this$props$height,
-          windowWidth = _this$props.windowWidth;
+          windowWidth = _this$props.windowWidth,
+          ticker = _this$props.ticker,
+          name = _this$props.name,
+          type = _this$props.type;
+      var copied = this.state.copied;
       if (!initialData) return null;
       if (!initialData.length) return null;
       if (initialData.length - 2 - shift < 0) return null;
@@ -200,11 +208,23 @@ function (_React$Component) {
         ticks = 2;
       }
 
+      var btnClass = copied ? 'react-components-show-url btn btn-sm btn-danger disabled font-10' : 'react-components-show-url btn btn-sm btn-warning font-10';
+      var btnText = copied ? 'Copied' : 'Copy Img';
       return _react["default"].createElement("div", {
-        className: "row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10"
-      }, _react["default"].createElement(_reactStockcharts.ChartCanvas, {
-        height: height * 1.2 // seriesName={seriesName}
-        ,
+        className: "row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button"
+      }, _react["default"].createElement(_reactCopyToClipboard.CopyToClipboard, {
+        text: "https://i.earningsfly.com/".concat(ticker, "_daily.png"),
+        onCopy: function onCopy() {
+          return _this.setState({
+            copied: true
+          });
+        }
+      }, _react["default"].createElement("button", {
+        className: btnClass,
+        value: btnText
+      }, btnText)), _react["default"].createElement(_reactStockcharts.ChartCanvas, {
+        height: height * 1.2,
+        seriesName: "".concat(ticker, " - ").concat(name, " ").concat(type, " chart"),
         ratio: ratio,
         width: width,
         clip: false,
