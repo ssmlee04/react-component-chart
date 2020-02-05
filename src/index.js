@@ -112,7 +112,7 @@ class ChartBig extends React.Component {
   }
 
   render() {
-    const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth, ticker, t } = this.props;
+    const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth, ticker, t, onCopy } = this.props;
     const { copied } = this.state;
 
     if (!initialData) return null;
@@ -145,7 +145,12 @@ class ChartBig extends React.Component {
     return (
       <div className='row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button'>
         <CopyToClipboard text={`https://i.earningsfly.com/${ticker}_daily.png`}
-          onCopy={() => this.setState({ copied: true })}
+          onCopy={() => {
+            this.setState({ copied: true });
+            if (onCopy) {
+              onCopy();
+            }
+          }}
         >
           <button style={{ zIndex: 10 }} className={btnClass} value={btnText}>{btnText}</button>
         </CopyToClipboard>

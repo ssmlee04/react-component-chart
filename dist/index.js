@@ -173,7 +173,8 @@ function (_React$Component) {
           height = _this$props$height === void 0 ? 300 : _this$props$height,
           windowWidth = _this$props.windowWidth,
           ticker = _this$props.ticker,
-          t = _this$props.t;
+          t = _this$props.t,
+          _onCopy = _this$props.onCopy;
       var copied = this.state.copied;
       if (!initialData) return null;
       if (!initialData.length) return null;
@@ -222,9 +223,13 @@ function (_React$Component) {
       }, _react["default"].createElement(_reactCopyToClipboard.CopyToClipboard, {
         text: "https://i.earningsfly.com/".concat(ticker, "_daily.png"),
         onCopy: function onCopy() {
-          return _this2.setState({
+          _this2.setState({
             copied: true
           });
+
+          if (_onCopy) {
+            _onCopy();
+          }
         }
       }, _react["default"].createElement("button", {
         style: {
