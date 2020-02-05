@@ -144,7 +144,7 @@ class ChartBig extends React.Component {
 
     return (
       <div className='row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button'>
-        <CopyToClipboard text={`https://i.earningsfly.com/${ticker}_daily.png`}
+        <CopyToClipboard text={`https://i.earningsfly.com/${ticker}_daily.png?q=${Date.now()}`}
           onCopy={() => {
             this.setState({ copied: true });
             if (onCopy) {

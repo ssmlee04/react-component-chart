@@ -221,7 +221,7 @@ function (_React$Component) {
       return _react["default"].createElement("div", {
         className: "row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button"
       }, _react["default"].createElement(_reactCopyToClipboard.CopyToClipboard, {
-        text: "https://i.earningsfly.com/".concat(ticker, "_daily.png"),
+        text: "https://i.earningsfly.com/".concat(ticker, "_daily.png?q=").concat(Date.now()),
         onCopy: function onCopy() {
           _this2.setState({
             copied: true
