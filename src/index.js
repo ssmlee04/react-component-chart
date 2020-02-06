@@ -112,8 +112,12 @@ class ChartBig extends React.Component {
   }
 
   render() {
-    const { shift = 0, numSticksToDisplay = 120, data: initialData, width, ratio, height = 300, windowWidth, ticker, t, onCopy } = this.props;
+    const { shift = 0, numSticksToDisplay = 120, width, ratio, height = 300, windowWidth, ticker, t, onCopy } = this.props;
+    let { data: initialData } = this.props;
     const { copied } = this.state;
+    if (initialData.length === 1) {
+      initialData = initialData.concat(initialData);
+    }
 
     if (!initialData) return null;
     if (!initialData.length) return null;

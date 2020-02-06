@@ -166,7 +166,6 @@ function (_React$Component) {
           shift = _this$props$shift === void 0 ? 0 : _this$props$shift,
           _this$props$numSticks = _this$props.numSticksToDisplay,
           numSticksToDisplay = _this$props$numSticks === void 0 ? 120 : _this$props$numSticks,
-          initialData = _this$props.data,
           width = _this$props.width,
           ratio = _this$props.ratio,
           _this$props$height = _this$props.height,
@@ -175,7 +174,13 @@ function (_React$Component) {
           ticker = _this$props.ticker,
           t = _this$props.t,
           _onCopy = _this$props.onCopy;
+      var initialData = this.props.data;
       var copied = this.state.copied;
+
+      if (initialData.length === 1) {
+        initialData = initialData.concat(initialData);
+      }
+
       if (!initialData) return null;
       if (!initialData.length) return null;
       if (initialData.length - 2 - shift < 0) return null;
