@@ -37,8 +37,6 @@ var _utils = require("react-stockcharts/lib/utils");
 
 var _reactCopyToClipboard = require("react-copy-to-clipboard");
 
-var _PatternsDisplayer = _interopRequireDefault(require("./PatternsDisplayer"));
-
 require("./../index.css");
 
 function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
@@ -184,7 +182,6 @@ function (_React$Component) {
       if (!initialData) return null;
       if (!initialData.length) return null;
       if (initialData.length - 2 - shift < 0) return null;
-      var patterns = initialData[initialData.length - 1 - shift].patterns || initialData[initialData.length - 2 - shift].patterns;
       var maxWindowSize = 9999;
       var dataToCalculate = initialData.slice(-maxWindowSize);
       var calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(sma10(dataToCalculate))))));
@@ -407,9 +404,7 @@ function (_React$Component) {
         },
         options: macdCalculator.options(),
         appearance: macdAppearance
-      })), _react["default"].createElement(_coordinates.CrossHairCursor, null)), _react["default"].createElement(_PatternsDisplayer["default"], {
-        patterns: patterns
-      }));
+      })), _react["default"].createElement(_coordinates.CrossHairCursor, null)));
     }
   }]);
 

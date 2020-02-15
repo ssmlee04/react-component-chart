@@ -29,7 +29,6 @@ import { sma, macd } from "react-stockcharts/lib/indicator";
 import { fitWidth } from "react-stockcharts/lib/helper";
 import { last } from "react-stockcharts/lib/utils";
 import { CopyToClipboard } from 'react-copy-to-clipboard';
-import PatternsDisplayer from './PatternsDisplayer';
 import './../index.css';
 
 const annotationProps = {
@@ -122,7 +121,6 @@ class ChartBig extends React.Component {
     if (!initialData) return null;
     if (!initialData.length) return null;
     if (initialData.length - 2 - shift < 0) return null;
-    const patterns = initialData[initialData.length - 1 - shift].patterns || initialData[initialData.length - 2 - shift].patterns;
     const maxWindowSize = 9999;
     const dataToCalculate = initialData.slice(-maxWindowSize);
     const calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(sma10(dataToCalculate))))));
@@ -277,7 +275,6 @@ class ChartBig extends React.Component {
           </Chart>
           <CrossHairCursor />
         </ChartCanvas>
-        <PatternsDisplayer patterns={patterns} />
       </div>
     );
   }
