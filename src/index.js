@@ -114,13 +114,13 @@ class ChartBig extends React.Component {
     const { shift = 0, numSticksToDisplay = 120, width, ratio, height = 300, windowWidth, ticker, t, onCopy } = this.props;
     let { data: initialData } = this.props;
     const { copied } = this.state;
-    if (initialData.length === 1) {
-      initialData = initialData.concat(initialData);
-    }
 
     if (!initialData) return null;
     if (!initialData.length) return null;
     if (initialData.length - 2 - shift < 0) return null;
+    if (initialData.length === 1) {
+      initialData = initialData.concat(initialData);
+    }
     const maxWindowSize = 9999;
     const dataToCalculate = initialData.slice(-maxWindowSize);
     const calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(sma10(dataToCalculate))))));

@@ -174,14 +174,14 @@ function (_React$Component) {
           _onCopy = _this$props.onCopy;
       var initialData = this.props.data;
       var copied = this.state.copied;
+      if (!initialData) return null;
+      if (!initialData.length) return null;
+      if (initialData.length - 2 - shift < 0) return null;
 
       if (initialData.length === 1) {
         initialData = initialData.concat(initialData);
       }
 
-      if (!initialData) return null;
-      if (!initialData.length) return null;
-      if (initialData.length - 2 - shift < 0) return null;
       var maxWindowSize = 9999;
       var dataToCalculate = initialData.slice(-maxWindowSize);
       var calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(sma10(dataToCalculate))))));
