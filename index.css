@@ -18,7 +18,7 @@ div.react-components-show-button span {
     position: absolute;
 }
 div.react-components-show-button button.react-components-show-url {
-    top: 2px;
+    bottom: 2px;
     right: 2px;
 }
 div.react-components-show-button span.react-components-show-ticker {
