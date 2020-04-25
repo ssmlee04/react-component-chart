@@ -139,7 +139,7 @@ class ChartBig extends React.Component {
     if (windowWidth < 720) {
       ticks = 2;
     }
-    const btnClass = copied ? 'react-components-show-url btn btn-sm btn-danger disabled font-10' : 'react-components-show-url btn btn-sm btn-warning font-10';
+    const btnClass = copied ? 'react-components-show-url-chart btn btn-sm btn-danger disabled font-10' : 'react-components-show-url-chart btn btn-sm btn-warning font-10';
     const btnText = copied ? 'Copied' : 'Copy Img';
     const tickerClass = 'react-components-show-ticker';
     const seriesName = `${ticker} - ${t}`;

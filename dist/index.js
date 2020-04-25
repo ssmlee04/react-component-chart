@@ -216,7 +216,7 @@ function (_React$Component) {
         ticks = 2;
       }
 
-      var btnClass = copied ? 'react-components-show-url btn btn-sm btn-danger disabled font-10' : 'react-components-show-url btn btn-sm btn-warning font-10';
+      var btnClass = copied ? 'react-components-show-url-chart btn btn-sm btn-danger disabled font-10' : 'react-components-show-url-chart btn btn-sm btn-warning font-10';
       var btnText = copied ? 'Copied' : 'Copy Img';
       var tickerClass = 'react-components-show-ticker';
       var seriesName = "".concat(ticker, " - ").concat(t);
