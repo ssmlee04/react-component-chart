@@ -19,7 +19,7 @@ div.react-components-show-button span {
 }
 div.react-components-show-button button.react-components-show-url-chart {
     top: 90%;
-    right: 2px;
+    left: 2px;
 }
 div.react-components-show-button span.react-components-show-ticker {
     top: 10%;
