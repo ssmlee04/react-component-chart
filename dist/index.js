@@ -221,7 +221,7 @@ function (_React$Component) {
       var tickerClass = 'react-components-show-ticker';
       var seriesName = "".concat(ticker, " - ").concat(t);
       return _react["default"].createElement("div", {
-        className: "row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button"
+        className: "row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button round-corner-10"
       }, _react["default"].createElement(_reactCopyToClipboard.CopyToClipboard, {
         text: "https://i.earningsfly.com/".concat(ticker, "_daily.png?q=").concat(Date.now()),
         onCopy: function onCopy() {
