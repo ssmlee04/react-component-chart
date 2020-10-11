@@ -359,7 +359,7 @@ function (_React$Component) {
         }, smaVolume50.accessor()],
         height: height * 0.15,
         origin: function origin(w, h) {
-          return [0, h * 0.41];
+          return [0, h * 0.4];
         }
       }, _react["default"].createElement(_coordinates.MouseCoordinateY, {
         at: "left",

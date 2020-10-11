@@ -240,7 +240,7 @@ class ChartBig extends React.Component {
           <Chart id={2}
             yExtents={[d => d.volume, smaVolume50.accessor()]}
             height={height * 0.15}
-            origin={(w, h) => [0, h * 0.41]}
+            origin={(w, h) => [0, h * 0.4]}
           >
             <MouseCoordinateY
               at='left'
