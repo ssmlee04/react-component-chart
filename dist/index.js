@@ -270,7 +270,7 @@ function (_React$Component) {
           left: 5,
           right: windowWidth > 720 ? 50 : 35,
           top: 10,
-          bottom: 40
+          bottom: 35
         },
         type: 'hybrid',
         data: data,
@@ -289,8 +289,8 @@ function (_React$Component) {
           return [0, 0];
         },
         padding: {
-          top: 5,
-          bottom: 0
+          top: 10,
+          bottom: 10
         }
       }, _react["default"].createElement(_axes.XAxis, _extends({
         fontSize: 10,

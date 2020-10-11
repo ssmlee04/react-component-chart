@@ -174,7 +174,7 @@ class ChartBig extends React.Component {
           zoomEvent={false}
           // onLoadMore={this.props.onLoadMoreData}
           padding={5}
-          margin={{ left: 5, right: windowWidth > 720 ? 50 : 35, top: 10, bottom: 40 }}
+          margin={{ left: 5, right: windowWidth > 720 ? 50 : 35, top: 10, bottom: 35 }}
           type={'hybrid'}
           data={data}
           xScale={xScale}
@@ -187,7 +187,7 @@ class ChartBig extends React.Component {
             fontSize={10}
             yExtents={[d => [d.high, d.low], sma10.accessor(), sma20.accessor(), sma50.accessor(), sma200.accessor()]}
             origin={(w, h) => [0, 0]}
-            padding={{ top: 5, bottom: 0 }}
+            padding={{ top: 10, bottom: 10 }}
           >
             <XAxis fontSize={10} tickStroke={'#555555'} axisAt='bottom' orient='bottom' ticks={ticks} {...xGrid} />
             <YAxis fontSize={10} tickStroke={'#555555'} axisAt='right' orient='right' ticks={5} {...yGrid} />
