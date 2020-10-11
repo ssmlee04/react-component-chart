@@ -1,45 +1,47 @@
-import React from "react";
-import PropTypes from "prop-types";
-import { format } from "d3-format";
+import React from 'react';
+import PropTypes from 'prop-types';
+import { format } from 'd3-format';
 import windowSize from 'react-window-size';
-import { timeFormat } from "d3-time-format";
-import { ChartCanvas, Chart } from "react-stockcharts";
-import { LabelAnnotation, Annotate } from "react-stockcharts/lib/annotation";
+import { timeFormat } from 'd3-time-format';
+import { ChartCanvas, Chart } from 'react-stockcharts';
+import { LabelAnnotation, Annotate } from 'react-stockcharts/lib/annotation';
 import {
   BarSeries,
   CandlestickSeries,
   LineSeries,
   MACDSeries,
-} from "react-stockcharts/lib/series";
-import { XAxis, YAxis } from "react-stockcharts/lib/axes";
+  RSISeries,
+} from 'react-stockcharts/lib/series';
+import { XAxis, YAxis } from 'react-stockcharts/lib/axes';
 import {
   CrossHairCursor,
   EdgeIndicator,
   CurrentCoordinate,
   MouseCoordinateX,
   MouseCoordinateY,
-} from "react-stockcharts/lib/coordinates";
-import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
+} from 'react-stockcharts/lib/coordinates';
+import { discontinuousTimeScaleProvider } from 'react-stockcharts/lib/scale';
 import {
   OHLCTooltip,
   MACDTooltip,
+  RSITooltip,
   MovingAverageTooltip,
-} from "react-stockcharts/lib/tooltip";
-import { sma, macd } from "react-stockcharts/lib/indicator";
-import { fitWidth } from "react-stockcharts/lib/helper";
-import { last } from "react-stockcharts/lib/utils";
+} from 'react-stockcharts/lib/tooltip';
+import { rsi, sma, macd } from 'react-stockcharts/lib/indicator';
+import { fitWidth } from 'react-stockcharts/lib/helper';
+import { last } from 'react-stockcharts/lib/utils';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 import './../index.css';
 
 const annotationProps = {
-      fontFamily: "Glyphicons Halflings",
+      fontFamily: 'Glyphicons Halflings',
       fontSize: 10,
-      fill: "rgba(0,46,120,0.7)",
+      fill: 'rgba(0,46,120,0.7)',
       opacity: 0.8,
-      text: "▲",
+      text: '▲',
       y: ({ yScale }) => yScale.range()[0] + 20,
       onClick: () => {},
-      tooltip: d => timeFormat("%B")(d.date),
+      tooltip: d => timeFormat('%B')(d.date),
       // onMouseOver: console.log.bind(console),
     };
 
@@ -51,6 +53,11 @@ const macdCalculator = macd()
 })
 .merge((d, c) => {d.macd = c;})
 .accessor(d => d.macd);
+
+const rsiCalculator = rsi()
+      .options({ windowSize: 14 })
+      .merge((d, c) => {d.rsi = c;})
+      .accessor(d => d.rsi);
 
 const sma10 = sma()
   .id(0)
@@ -82,24 +89,24 @@ const sma200 = sma()
 
 const smaVolume50 = sma()
   .id(3)
-  .options({ windowSize: 50, sourcePath: "volume" })
+  .options({ windowSize: 50, sourcePath: 'volume' })
   .merge((d, c) => { d.smaVolume50 = c; })
   .accessor(d => d.smaVolume50);
 
 const macdAppearance = {
-  width: 7,
+  width: 5,
   stroke: {
     macd: 'rgba(170,0,0,0.5)',
     signal: 'rgba(1,70,32,0.5)',
   },
   fill: {
-    divergence: "#00468b"
+    divergence: '#00468b'
   },
 };
 
 const candlesAppearance = {
   fill: function fill(d) {
-    return d.close > d.open ? "rgba(0,166,81,0.7)" : "rgba(204,36,36,0.5)";
+    return d.close > d.open ? 'rgba(0,166,81,0.7)' : 'rgba(204,36,36,0.5)';
   },
   widthRatio: 0.8,
 };
@@ -111,7 +118,7 @@ class ChartBig extends React.Component {
   }
 
   render() {
-    const { shift = 0, numSticksToDisplay = 120, width, ratio, height = 300, windowWidth, ticker, t, onCopy } = this.props;
+    const { shift = 0, numSticksToDisplay = 120, width, ratio, height = 350, windowWidth, ticker, t, onCopy } = this.props;
     let { data: initialData } = this.props;
     const { copied } = this.state;
 
@@ -123,7 +130,7 @@ class ChartBig extends React.Component {
     }
     const maxWindowSize = 9999;
     const dataToCalculate = initialData.slice(-maxWindowSize);
-    const calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(sma10(dataToCalculate))))));
+    const calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(sma10(rsiCalculator(dataToCalculate)))))));
     const xScaleProvider = discontinuousTimeScaleProvider
       .inputDateAccessor(d => d.date);
     const { data, xScale, xAccessor, displayXAccessor } = xScaleProvider(calculatedData);
@@ -133,8 +140,8 @@ class ChartBig extends React.Component {
     const gridHeight = height;
     const gridWidth = width;
     const showGrid = true;
-    const yGrid = showGrid ? { innerTickSize: -1 * gridWidth, tickStrokeDasharray: 'ShortDot' } : {};
-    const xGrid = showGrid ? { innerTickSize: -1 * gridHeight, tickStrokeDasharray: 'ShortDot' } : {};
+    const yGrid = showGrid ? { innerTickSize: -1 * gridWidth, tickStrokeDasharray: 'ShortDot', tickStrokeOpacity: 0.5 } : {};
+    const xGrid = showGrid ? { innerTickSize: -1 * gridHeight, tickStrokeDasharray: 'ShortDot', tickStrokeOpacity: 0.5 } : {};
     let ticks = 5;
     if (windowWidth < 720) {
       ticks = 2;
@@ -145,7 +152,7 @@ class ChartBig extends React.Component {
     const seriesName = `${ticker} - ${t}`;
 
     return (
-      <div className='row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button round-corner-10'>
+      <div className='row no-gutters react-components-show-button'>
         <CopyToClipboard text={`https://i.earningsfly.com/${ticker}_daily.png?q=${Date.now()}`}
           onCopy={() => {
             this.setState({ copied: true });
@@ -156,9 +163,10 @@ class ChartBig extends React.Component {
         >
           <button style={{ zIndex: 10 }} className={btnClass} value={btnText}>{btnText}</button>
         </CopyToClipboard>
-        <span className={tickerClass} style={{ color: 'rgba(0, 0, 0, 0.2)', fontSize: 50 }}>{seriesName}</span>
-        <ChartCanvas height={height * 1.2}
+        <span className={tickerClass} style={{ color: 'rgba(0, 0, 0, 0.2)', fontSize: 35, marginTop: 10 }}>{seriesName}</span>
+        <ChartCanvas height={height}
           seriesName={seriesName}
+          fontSize={10}
           ratio={ratio}
           width={width}
           clip={false}
@@ -175,48 +183,49 @@ class ChartBig extends React.Component {
           xExtents={xExtents}
         >
           <Chart id={1}
-            height={height * 0.8}
+            height={height * 0.5}
+            fontSize={10}
             yExtents={[d => [d.high, d.low], sma10.accessor(), sma20.accessor(), sma50.accessor(), sma200.accessor()]}
             origin={(w, h) => [0, 0]}
-            padding={{ top: 10, bottom: 20 }}
+            padding={{ top: 5, bottom: 0 }}
           >
-            <XAxis tickStroke={'#bbbbbb'} axisAt='bottom' orient='bottom' ticks={ticks} {...xGrid} />
-            <YAxis tickStroke={'#bbbbbb'} axisAt='right' orient='right' ticks={5} {...yGrid} />
+            <XAxis fontSize={10} tickStroke={'#bbbbbb'} axisAt='bottom' orient='bottom' ticks={ticks} {...xGrid} />
+            <YAxis fontSize={10} tickStroke={'#bbbbbb'} axisAt='right' orient='right' ticks={5} {...yGrid} />
             <MouseCoordinateY
               at='right'
               orient='right'
-              displayFormat={format(".1f")}
+              displayFormat={format('.1f')}
             />
             <CandlestickSeries {...candlesAppearance} />
             <LineSeries yAccessor={sma10.accessor()} stroke={sma10.stroke()} />
             <LineSeries yAccessor={sma20.accessor()} stroke={sma20.stroke()} />
             <LineSeries yAccessor={sma50.accessor()} stroke={sma50.stroke()} />
             <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} />
-
-            <OHLCTooltip origin={[0, 0]} />
+            <OHLCTooltip fontSize={10} origin={[0, 0]} />
             <MovingAverageTooltip
+              fontSize={8}
               options={[
                 {
                   yAccessor: sma10.accessor(),
-                  type: "SMA",
+                  type: 'SMA',
                   stroke: sma10.stroke(),
                   windowSize: sma10.options().windowSize,
                 },
                 {
                   yAccessor: sma20.accessor(),
-                  type: "SMA",
+                  type: 'SMA',
                   stroke: sma20.stroke(),
                   windowSize: sma20.options().windowSize,
                 },
                 {
                   yAccessor: sma50.accessor(),
-                  type: "SMA",
+                  type: 'SMA',
                   stroke: sma50.stroke(),
                   windowSize: sma50.options().windowSize,
                 },
                 {
                   yAccessor: sma200.accessor(),
-                  type: "SMA",
+                  type: 'SMA',
                   stroke: sma200.stroke(),
                   windowSize: sma200.options().windowSize,
                 },
@@ -230,28 +239,51 @@ class ChartBig extends React.Component {
           </Chart>
           <Chart id={2}
             yExtents={[d => d.volume, smaVolume50.accessor()]}
-            height={height * 0.2}
-            origin={(w, h) => [0, h * (0.58)]}
+            height={height * 0.15}
+            origin={(w, h) => [0, h * 0.41]}
           >
             <MouseCoordinateY
               at='left'
               orient='left'
-              displayFormat={format(".4s")}
+              displayFormat={format('.4s')}
             />
 
-            <BarSeries yAccessor={d => d.volume} fill={d => d.close > d.open ? "rgba(0,166,81,0.3)" : "rgba(204,36,36,0.3)"} />
+            <BarSeries yAccessor={d => d.volume} fill={d => d.close > d.open ? 'rgba(0,166,81,0.3)' : 'rgba(204,36,36,0.3)'} />
             <CurrentCoordinate yAccessor={smaVolume50.accessor()} fill={smaVolume50.stroke()} />
             <CurrentCoordinate yAccessor={d => d.volume} fill='#9B0A47' />
             <EdgeIndicator itemType='last' orient='right' edgeAt='right'
-              yAccessor={d => d.volume} displayFormat={format(".4s")} fill={'black'}
+              yAccessor={d => d.volume} displayFormat={format('.4s')} fill={'black'}
             />
           </Chart>
           <Chart id={3}
             yExtents={macdCalculator.accessor()}
-            height={height * 0.2}
-            origin={(w, h) => [0, h * (0.87)]}
+            height={height * 0.18}
+            origin={(w, h) => [0, 0.65 * h]}
           >
-            <YAxis tickStroke={'#cccccc'} axisAt='right' orient='right' ticks={5} {...yGrid} />
+            <YAxis fontSize={10} tickStroke={'#cccccc'} axisAt='right' orient='right' ticks={5} {...yGrid} />
+            <MouseCoordinateY
+              at='right'
+              orient='right'
+              displayFormat={format('.2f')}
+            />
+
+            <MACDSeries yAccessor={d => d.macd}
+              {...macdAppearance}
+            />
+            <MACDTooltip
+              fontSize={8}
+              origin={[0, 0]}
+              yAccessor={d => d.macd}
+              options={macdCalculator.options()}
+              appearance={macdAppearance}
+            />
+          </Chart>
+          <Chart id={4}
+            yExtents={rsiCalculator.accessor()}
+            height={height * 0.13}
+            origin={(w, h) => [0, 0.90 * h]}
+          >
+            <YAxis fontSize={10} tickStroke={'#cccccc'} axisAt='right' orient='right' ticks={5} {...yGrid} />
             <MouseCoordinateX
               at='bottom'
               orient='bottom'
@@ -263,14 +295,12 @@ class ChartBig extends React.Component {
               displayFormat={format('.2f')}
             />
 
-            <MACDSeries yAccessor={d => d.macd}
-              {...macdAppearance}
-            />
-            <MACDTooltip
+            <RSISeries yAccessor={d => d.rsi} />
+            <RSITooltip
+              fontSize={8}
               origin={[0, 0]}
-              yAccessor={d => d.macd}
-              options={macdCalculator.options()}
-              appearance={macdAppearance}
+              yAccessor={d => d.rsi}
+              options={rsiCalculator.options()}
             />
           </Chart>
           <CrossHairCursor />
@@ -288,7 +318,7 @@ ChartBig.propTypes = {
 };
 
 ChartBig.defaultProps = {
-  type: "svg",
+  type: 'svg',
 };
 
 // eslint-disable-next-line

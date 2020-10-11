@@ -62,18 +62,18 @@ function _inherits(subClass, superClass) { if (typeof superClass !== "function" 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
 
 var annotationProps = {
-  fontFamily: "Glyphicons Halflings",
+  fontFamily: 'Glyphicons Halflings',
   fontSize: 10,
-  fill: "rgba(0,46,120,0.7)",
+  fill: 'rgba(0,46,120,0.7)',
   opacity: 0.8,
-  text: "▲",
+  text: '▲',
   y: function y(_ref) {
     var yScale = _ref.yScale;
     return yScale.range()[0] + 20;
   },
   onClick: function onClick() {},
   tooltip: function tooltip(d) {
-    return (0, _d3TimeFormat.timeFormat)("%B")(d.date);
+    return (0, _d3TimeFormat.timeFormat)('%B')(d.date);
   } // onMouseOver: console.log.bind(console),
 
 };
@@ -85,6 +85,13 @@ var macdCalculator = (0, _indicator.macd)().options({
   d.macd = c;
 }).accessor(function (d) {
   return d.macd;
+});
+var rsiCalculator = (0, _indicator.rsi)().options({
+  windowSize: 14
+}).merge(function (d, c) {
+  d.rsi = c;
+}).accessor(function (d) {
+  return d.rsi;
 });
 var sma10 = (0, _indicator.sma)().id(0).stroke('rgba(100,0,10,0.5)').options({
   windowSize: 10
@@ -116,25 +123,25 @@ var sma200 = (0, _indicator.sma)().id(2).stroke('rgba(20,20,190,0.5)').options({
 });
 var smaVolume50 = (0, _indicator.sma)().id(3).options({
   windowSize: 50,
-  sourcePath: "volume"
+  sourcePath: 'volume'
 }).merge(function (d, c) {
   d.smaVolume50 = c;
 }).accessor(function (d) {
   return d.smaVolume50;
 });
 var macdAppearance = {
-  width: 7,
+  width: 5,
   stroke: {
     macd: 'rgba(170,0,0,0.5)',
     signal: 'rgba(1,70,32,0.5)'
   },
   fill: {
-    divergence: "#00468b"
+    divergence: '#00468b'
   }
 };
 var candlesAppearance = {
   fill: function fill(d) {
-    return d.close > d.open ? "rgba(0,166,81,0.7)" : "rgba(204,36,36,0.5)";
+    return d.close > d.open ? 'rgba(0,166,81,0.7)' : 'rgba(204,36,36,0.5)';
   },
   widthRatio: 0.8
 };
@@ -167,7 +174,7 @@ function (_React$Component) {
           width = _this$props.width,
           ratio = _this$props.ratio,
           _this$props$height = _this$props.height,
-          height = _this$props$height === void 0 ? 300 : _this$props$height,
+          height = _this$props$height === void 0 ? 350 : _this$props$height,
           windowWidth = _this$props.windowWidth,
           ticker = _this$props.ticker,
           t = _this$props.t,
@@ -184,7 +191,7 @@ function (_React$Component) {
 
       var maxWindowSize = 9999;
       var dataToCalculate = initialData.slice(-maxWindowSize);
-      var calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(sma10(dataToCalculate))))));
+      var calculatedData = macdCalculator(smaVolume50(sma200(sma50(sma20(sma10(rsiCalculator(dataToCalculate)))))));
 
       var xScaleProvider = _scale.discontinuousTimeScaleProvider.inputDateAccessor(function (d) {
         return d.date;
@@ -204,11 +211,13 @@ function (_React$Component) {
       var showGrid = true;
       var yGrid = showGrid ? {
         innerTickSize: -1 * gridWidth,
-        tickStrokeDasharray: 'ShortDot'
+        tickStrokeDasharray: 'ShortDot',
+        tickStrokeOpacity: 0.5
       } : {};
       var xGrid = showGrid ? {
         innerTickSize: -1 * gridHeight,
-        tickStrokeDasharray: 'ShortDot'
+        tickStrokeDasharray: 'ShortDot',
+        tickStrokeOpacity: 0.5
       } : {};
       var ticks = 5;
 
@@ -221,7 +230,7 @@ function (_React$Component) {
       var tickerClass = 'react-components-show-ticker';
       var seriesName = "".concat(ticker, " - ").concat(t);
       return _react["default"].createElement("div", {
-        className: "row no-gutters chart-chart bg-lightgray-ultra-5 margin-bottom-10 react-components-show-button round-corner-10"
+        className: "row no-gutters react-components-show-button"
       }, _react["default"].createElement(_reactCopyToClipboard.CopyToClipboard, {
         text: "https://i.earningsfly.com/".concat(ticker, "_daily.png?q=").concat(Date.now()),
         onCopy: function onCopy() {
@@ -243,11 +252,13 @@ function (_React$Component) {
         className: tickerClass,
         style: {
           color: 'rgba(0, 0, 0, 0.2)',
-          fontSize: 50
+          fontSize: 35,
+          marginTop: 10
         }
       }, seriesName), _react["default"].createElement(_reactStockcharts.ChartCanvas, {
-        height: height * 1.2,
+        height: height,
         seriesName: seriesName,
+        fontSize: 10,
         ratio: ratio,
         width: width,
         clip: false,
@@ -269,7 +280,8 @@ function (_React$Component) {
         xExtents: xExtents
       }, _react["default"].createElement(_reactStockcharts.Chart, {
         id: 1,
-        height: height * 0.8,
+        height: height * 0.5,
+        fontSize: 10,
         yExtents: [function (d) {
           return [d.high, d.low];
         }, sma10.accessor(), sma20.accessor(), sma50.accessor(), sma200.accessor()],
@@ -277,15 +289,17 @@ function (_React$Component) {
           return [0, 0];
         },
         padding: {
-          top: 10,
-          bottom: 20
+          top: 5,
+          bottom: 0
         }
       }, _react["default"].createElement(_axes.XAxis, _extends({
+        fontSize: 10,
         tickStroke: '#bbbbbb',
         axisAt: "bottom",
         orient: "bottom",
         ticks: ticks
       }, xGrid)), _react["default"].createElement(_axes.YAxis, _extends({
+        fontSize: 10,
         tickStroke: '#bbbbbb',
         axisAt: "right",
         orient: "right",
@@ -293,7 +307,7 @@ function (_React$Component) {
       }, yGrid)), _react["default"].createElement(_coordinates.MouseCoordinateY, {
         at: "right",
         orient: "right",
-        displayFormat: (0, _d3Format.format)(".1f")
+        displayFormat: (0, _d3Format.format)('.1f')
       }), _react["default"].createElement(_series.CandlestickSeries, candlesAppearance), _react["default"].createElement(_series.LineSeries, {
         yAccessor: sma10.accessor(),
         stroke: sma10.stroke()
@@ -307,26 +321,28 @@ function (_React$Component) {
         yAccessor: sma200.accessor(),
         stroke: sma200.stroke()
       }), _react["default"].createElement(_tooltip.OHLCTooltip, {
+        fontSize: 10,
         origin: [0, 0]
       }), _react["default"].createElement(_tooltip.MovingAverageTooltip, {
+        fontSize: 8,
         options: [{
           yAccessor: sma10.accessor(),
-          type: "SMA",
+          type: 'SMA',
           stroke: sma10.stroke(),
           windowSize: sma10.options().windowSize
         }, {
           yAccessor: sma20.accessor(),
-          type: "SMA",
+          type: 'SMA',
           stroke: sma20.stroke(),
           windowSize: sma20.options().windowSize
         }, {
           yAccessor: sma50.accessor(),
-          type: "SMA",
+          type: 'SMA',
           stroke: sma50.stroke(),
           windowSize: sma50.options().windowSize
         }, {
           yAccessor: sma200.accessor(),
-          type: "SMA",
+          type: 'SMA',
           stroke: sma200.stroke(),
           windowSize: sma200.options().windowSize
         }]
@@ -341,20 +357,20 @@ function (_React$Component) {
         yExtents: [function (d) {
           return d.volume;
         }, smaVolume50.accessor()],
-        height: height * 0.2,
+        height: height * 0.15,
         origin: function origin(w, h) {
-          return [0, h * 0.58];
+          return [0, h * 0.41];
         }
       }, _react["default"].createElement(_coordinates.MouseCoordinateY, {
         at: "left",
         orient: "left",
-        displayFormat: (0, _d3Format.format)(".4s")
+        displayFormat: (0, _d3Format.format)('.4s')
       }), _react["default"].createElement(_series.BarSeries, {
         yAccessor: function yAccessor(d) {
           return d.volume;
         },
         fill: function fill(d) {
-          return d.close > d.open ? "rgba(0,166,81,0.3)" : "rgba(204,36,36,0.3)";
+          return d.close > d.open ? 'rgba(0,166,81,0.3)' : 'rgba(204,36,36,0.3)';
         }
       }), _react["default"].createElement(_coordinates.CurrentCoordinate, {
         yAccessor: smaVolume50.accessor(),
@@ -371,16 +387,46 @@ function (_React$Component) {
         yAccessor: function yAccessor(d) {
           return d.volume;
         },
-        displayFormat: (0, _d3Format.format)(".4s"),
+        displayFormat: (0, _d3Format.format)('.4s'),
         fill: 'black'
       })), _react["default"].createElement(_reactStockcharts.Chart, {
         id: 3,
         yExtents: macdCalculator.accessor(),
-        height: height * 0.2,
+        height: height * 0.18,
         origin: function origin(w, h) {
-          return [0, h * 0.87];
+          return [0, 0.65 * h];
         }
       }, _react["default"].createElement(_axes.YAxis, _extends({
+        fontSize: 10,
+        tickStroke: '#cccccc',
+        axisAt: "right",
+        orient: "right",
+        ticks: 5
+      }, yGrid)), _react["default"].createElement(_coordinates.MouseCoordinateY, {
+        at: "right",
+        orient: "right",
+        displayFormat: (0, _d3Format.format)('.2f')
+      }), _react["default"].createElement(_series.MACDSeries, _extends({
+        yAccessor: function yAccessor(d) {
+          return d.macd;
+        }
+      }, macdAppearance)), _react["default"].createElement(_tooltip.MACDTooltip, {
+        fontSize: 8,
+        origin: [0, 0],
+        yAccessor: function yAccessor(d) {
+          return d.macd;
+        },
+        options: macdCalculator.options(),
+        appearance: macdAppearance
+      })), _react["default"].createElement(_reactStockcharts.Chart, {
+        id: 4,
+        yExtents: rsiCalculator.accessor(),
+        height: height * 0.13,
+        origin: function origin(w, h) {
+          return [0, 0.90 * h];
+        }
+      }, _react["default"].createElement(_axes.YAxis, _extends({
+        fontSize: 10,
         tickStroke: '#cccccc',
         axisAt: "right",
         orient: "right",
@@ -393,17 +439,17 @@ function (_React$Component) {
         at: "right",
         orient: "right",
         displayFormat: (0, _d3Format.format)('.2f')
-      }), _react["default"].createElement(_series.MACDSeries, _extends({
+      }), _react["default"].createElement(_series.RSISeries, {
         yAccessor: function yAccessor(d) {
-          return d.macd;
+          return d.rsi;
         }
-      }, macdAppearance)), _react["default"].createElement(_tooltip.MACDTooltip, {
+      }), _react["default"].createElement(_tooltip.RSITooltip, {
+        fontSize: 8,
         origin: [0, 0],
         yAccessor: function yAccessor(d) {
-          return d.macd;
+          return d.rsi;
         },
-        options: macdCalculator.options(),
-        appearance: macdAppearance
+        options: rsiCalculator.options()
       })), _react["default"].createElement(_coordinates.CrossHairCursor, null)));
     }
   }]);
@@ -418,7 +464,7 @@ ChartBig.propTypes = {
   type: _propTypes["default"].oneOf(['svg', 'hybrid']).isRequired
 };
 ChartBig.defaultProps = {
-  type: "svg"
+  type: 'svg'
 }; // eslint-disable-next-line
 
 ChartBig = (0, _helper.fitWidth)(ChartBig);
