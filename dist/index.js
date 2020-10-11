@@ -211,12 +211,12 @@ function (_React$Component) {
       var showGrid = true;
       var yGrid = showGrid ? {
         innerTickSize: -1 * gridWidth,
-        tickStrokeDasharray: 'ShortDot',
+        tickStrokeDasharray: 'Dot',
         tickStrokeOpacity: 0.5
       } : {};
       var xGrid = showGrid ? {
         innerTickSize: -1 * gridHeight,
-        tickStrokeDasharray: 'ShortDot',
+        tickStrokeDasharray: 'Dot',
         tickStrokeOpacity: 0.5
       } : {};
       var ticks = 5;
@@ -294,13 +294,13 @@ function (_React$Component) {
         }
       }, _react["default"].createElement(_axes.XAxis, _extends({
         fontSize: 10,
-        tickStroke: '#bbbbbb',
+        tickStroke: '#555555',
         axisAt: "bottom",
         orient: "bottom",
         ticks: ticks
       }, xGrid)), _react["default"].createElement(_axes.YAxis, _extends({
         fontSize: 10,
-        tickStroke: '#bbbbbb',
+        tickStroke: '#555555',
         axisAt: "right",
         orient: "right",
         ticks: 5
@@ -324,7 +324,7 @@ function (_React$Component) {
         fontSize: 10,
         origin: [0, 0]
       }), _react["default"].createElement(_tooltip.MovingAverageTooltip, {
-        fontSize: 8,
+        fontSize: 10,
         options: [{
           yAccessor: sma10.accessor(),
           type: 'SMA',
@@ -394,11 +394,11 @@ function (_React$Component) {
         yExtents: macdCalculator.accessor(),
         height: height * 0.18,
         origin: function origin(w, h) {
-          return [0, 0.65 * h];
+          return [0, 0.66 * h];
         }
       }, _react["default"].createElement(_axes.YAxis, _extends({
         fontSize: 10,
-        tickStroke: '#cccccc',
+        tickStroke: '#555555',
         axisAt: "right",
         orient: "right",
         ticks: 5
@@ -411,7 +411,7 @@ function (_React$Component) {
           return d.macd;
         }
       }, macdAppearance)), _react["default"].createElement(_tooltip.MACDTooltip, {
-        fontSize: 8,
+        fontSize: 10,
         origin: [0, 0],
         yAccessor: function yAccessor(d) {
           return d.macd;
@@ -427,7 +427,7 @@ function (_React$Component) {
         }
       }, _react["default"].createElement(_axes.YAxis, _extends({
         fontSize: 10,
-        tickStroke: '#cccccc',
+        tickStroke: '#555555',
         axisAt: "right",
         orient: "right",
         ticks: 5
@@ -444,7 +444,7 @@ function (_React$Component) {
           return d.rsi;
         }
       }), _react["default"].createElement(_tooltip.RSITooltip, {
-        fontSize: 8,
+        fontSize: 10,
         origin: [0, 0],
         yAccessor: function yAccessor(d) {
           return d.rsi;

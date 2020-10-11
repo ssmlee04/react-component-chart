@@ -140,8 +140,8 @@ class ChartBig extends React.Component {
     const gridHeight = height;
     const gridWidth = width;
     const showGrid = true;
-    const yGrid = showGrid ? { innerTickSize: -1 * gridWidth, tickStrokeDasharray: 'ShortDot', tickStrokeOpacity: 0.5 } : {};
-    const xGrid = showGrid ? { innerTickSize: -1 * gridHeight, tickStrokeDasharray: 'ShortDot', tickStrokeOpacity: 0.5 } : {};
+    const yGrid = showGrid ? { innerTickSize: -1 * gridWidth, tickStrokeDasharray: 'Dot', tickStrokeOpacity: 0.5 } : {};
+    const xGrid = showGrid ? { innerTickSize: -1 * gridHeight, tickStrokeDasharray: 'Dot', tickStrokeOpacity: 0.5 } : {};
     let ticks = 5;
     if (windowWidth < 720) {
       ticks = 2;
@@ -189,8 +189,8 @@ class ChartBig extends React.Component {
             origin={(w, h) => [0, 0]}
             padding={{ top: 5, bottom: 0 }}
           >
-            <XAxis fontSize={10} tickStroke={'#bbbbbb'} axisAt='bottom' orient='bottom' ticks={ticks} {...xGrid} />
-            <YAxis fontSize={10} tickStroke={'#bbbbbb'} axisAt='right' orient='right' ticks={5} {...yGrid} />
+            <XAxis fontSize={10} tickStroke={'#555555'} axisAt='bottom' orient='bottom' ticks={ticks} {...xGrid} />
+            <YAxis fontSize={10} tickStroke={'#555555'} axisAt='right' orient='right' ticks={5} {...yGrid} />
             <MouseCoordinateY
               at='right'
               orient='right'
@@ -203,7 +203,7 @@ class ChartBig extends React.Component {
             <LineSeries yAccessor={sma200.accessor()} stroke={sma200.stroke()} />
             <OHLCTooltip fontSize={10} origin={[0, 0]} />
             <MovingAverageTooltip
-              fontSize={8}
+              fontSize={10}
               options={[
                 {
                   yAccessor: sma10.accessor(),
@@ -258,9 +258,9 @@ class ChartBig extends React.Component {
           <Chart id={3}
             yExtents={macdCalculator.accessor()}
             height={height * 0.18}
-            origin={(w, h) => [0, 0.65 * h]}
+            origin={(w, h) => [0, 0.66 * h]}
           >
-            <YAxis fontSize={10} tickStroke={'#cccccc'} axisAt='right' orient='right' ticks={5} {...yGrid} />
+            <YAxis fontSize={10} tickStroke={'#555555'} axisAt='right' orient='right' ticks={5} {...yGrid} />
             <MouseCoordinateY
               at='right'
               orient='right'
@@ -271,7 +271,7 @@ class ChartBig extends React.Component {
               {...macdAppearance}
             />
             <MACDTooltip
-              fontSize={8}
+              fontSize={10}
               origin={[0, 0]}
               yAccessor={d => d.macd}
               options={macdCalculator.options()}
@@ -283,7 +283,7 @@ class ChartBig extends React.Component {
             height={height * 0.13}
             origin={(w, h) => [0, 0.90 * h]}
           >
-            <YAxis fontSize={10} tickStroke={'#cccccc'} axisAt='right' orient='right' ticks={5} {...yGrid} />
+            <YAxis fontSize={10} tickStroke={'#555555'} axisAt='right' orient='right' ticks={5} {...yGrid} />
             <MouseCoordinateX
               at='bottom'
               orient='bottom'
@@ -297,7 +297,7 @@ class ChartBig extends React.Component {
 
             <RSISeries yAccessor={d => d.rsi} />
             <RSITooltip
-              fontSize={8}
+              fontSize={10}
               origin={[0, 0]}
               yAccessor={d => d.rsi}
               options={rsiCalculator.options()}
