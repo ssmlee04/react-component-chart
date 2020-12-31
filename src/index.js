@@ -153,16 +153,6 @@ class ChartBig extends React.Component {
 
     return (
       <div className='row no-gutters react-components-show-button'>
-        <CopyToClipboard text={`https://i.earningsfly.com/${ticker}_daily.png?q=${Date.now()}`}
-          onCopy={() => {
-            this.setState({ copied: true });
-            if (onCopy) {
-              onCopy();
-            }
-          }}
-        >
-          <button style={{ zIndex: 10 }} className={btnClass} value={btnText}>{btnText}</button>
-        </CopyToClipboard>
         <span className={tickerClass} style={{ color: 'rgba(0, 0, 0, 0.2)', fontSize: 35, marginTop: 10 }}>{seriesName}</span>
         <ChartCanvas height={height}
           seriesName={seriesName}

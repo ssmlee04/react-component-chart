@@ -164,8 +164,6 @@ function (_React$Component) {
   _createClass(ChartBig, [{
     key: "render",
     value: function render() {
-      var _this2 = this;
-
       var _this$props = this.props,
           _this$props$shift = _this$props.shift,
           shift = _this$props$shift === void 0 ? 0 : _this$props$shift,
@@ -178,7 +176,7 @@ function (_React$Component) {
           windowWidth = _this$props.windowWidth,
           ticker = _this$props.ticker,
           t = _this$props.t,
-          _onCopy = _this$props.onCopy;
+          onCopy = _this$props.onCopy;
       var initialData = this.props.data;
       var copied = this.state.copied;
       if (!initialData) return null;
@@ -231,24 +229,7 @@ function (_React$Component) {
       var seriesName = "".concat(ticker, " - ").concat(t);
       return _react["default"].createElement("div", {
         className: "row no-gutters react-components-show-button"
-      }, _react["default"].createElement(_reactCopyToClipboard.CopyToClipboard, {
-        text: "https://i.earningsfly.com/".concat(ticker, "_daily.png?q=").concat(Date.now()),
-        onCopy: function onCopy() {
-          _this2.setState({
-            copied: true
-          });
-
-          if (_onCopy) {
-            _onCopy();
-          }
-        }
-      }, _react["default"].createElement("button", {
-        style: {
-          zIndex: 10
-        },
-        className: btnClass,
-        value: btnText
-      }, btnText)), _react["default"].createElement("span", {
+      }, _react["default"].createElement("span", {
         className: tickerClass,
         style: {
           color: 'rgba(0, 0, 0, 0.2)',
