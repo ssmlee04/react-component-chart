@@ -1,6 +1,6 @@
 {
   "dependencies": {
-    "chart.js": "^2.8.0",
+    "chart.js": "^2.9.4",
     "d3-format": "^1.4.3",
     "d3-time-format": "^2.2.3",
     "lodash": "^4.17.15",
